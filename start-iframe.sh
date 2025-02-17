@@ -1,0 +1,2 @@
+npx serve -n -p 9001 --ssl-key=$(grep SSL_KEY_FILE .env |cut -d'=' -f2) --ssl-cert=$(grep SSL_CERT_FILE .env |cut -d'=' -f2) &
+npx serve -n -p 9002 --ssl-key=$(grep SSL_KEY_FILE .env |cut -d'=' -f2) --ssl-cert=$(grep SSL_CERT_FILE .env |cut -d'=' -f2) &

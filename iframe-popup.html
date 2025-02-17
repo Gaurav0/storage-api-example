@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Torii OAuth Example</title>
+    <script>
+      async function openPopup() {
+        const hasAccess = await document.hasStorageAccess();
+        console.log(hasAccess)
+        if (!hasAccess) {
+          await document.requestStorageAccess({
+            cookies: true,
+          });
+        }
+        const popup = window.open("iframe-popup-contents.html", "popup", "width=400,height=400");
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        let cookies = document.cookie
+          .split(';')
+          .reduce((res, c) => {
+            const [key, val] = c.trim().split('=').map(decodeURIComponent)
+            const allNumbers = str => /^\d+$/.test(str);
+            try {
+              return Object.assign(res, { [key]: allNumbers(val) ?  val : JSON.parse(val) })
+            } catch (e) {
+              return Object.assign(res, { [key]: val })
+            }
+          }, {});
+        console.log(cookies.name);
+      }
+    </script>
+    </head>
+    <body>
+      <button onclick="javascript:openPopup();">Open a popup</button>
+    </body>
+    </html>
